@@ -7,9 +7,10 @@ var app = express();
 var path = require("path");
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
-var newReservation;
+var newreservation;
 var PORT = 3000;
-
+var reservations = [];
+var tables = [];
 
 //constructor for building 'reservation' 
 
@@ -30,13 +31,13 @@ app.get("/tables", function (req, res) {
 
 //listen for GET for view tables request
 // Create New reservations - takes in JSON input
-app.post("/api/new", function (req, res) {
+app.post("/reserve", function (req, res) {
 
-  var newreservation = req.body;
+  newreservation = req.body;
 
   console.log(newreservation);
   if (reservations.length < 5) { reservations.push(newreservation); }
-  else { waitlist.push(newresevation); }
+  else { reservations.push(newresevation); }
 
 });
 

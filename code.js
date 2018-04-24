@@ -1,22 +1,14 @@
 // Dependencies
 // ===========================================================
 var express = require("express");
+var bodyparser = require("body-parser");
 //body parser
 var app = express();
+var path = require("path");
+app.use(bodyparser.urlencoded({ extended: true }));
+app.use(bodyparser.json());
+
 var PORT = 3000;
-/// array for reservations, similar one for wait list
-var reservations = 
-[{
-    customerName: "",
-    customerEmail: "",
-    customerID: "",
-    phoneNumber: "",
-
-}];
-
-// Sets up the Express app to handle data parsing
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
 
 
 //constructor for building 'reservation' 
@@ -25,15 +17,51 @@ var reservations =
 
 //paths to different pages
  app.get("/", function(req, res) {
-     res.sendFile(path.join(__dirname, "home.html"));
+     res.sendFile(path.join(__dirname, "index.html"));
    });
 //listen for POST from page forms
 
 //listen for GET for view tables request
+// Create New reservations - takes in JSON input
+app.post("/api/new", function(req, res) {
 
+    var newreservation = req.body;
+    
+    console.log(newreservation);
+    if(reservations.length<5)
+    {reservations.push(newreservation);}
+    else {waitlist.push(newresevation);}
+  
+  });
+
+  $("#add-btn").on("click", function(event) {
+    event.preventDefault();
+    var newReservation = {
+      name: $("#name").val().trim(),
+      email: $("#email").val().trim(),
+      id: $("#id").val().trim(),
+      phone: $("#phone").val().trim()
+    };
+
+    // Question: What does this code do??
+    $.post("/api/new", newReservation)
+      .then(function(data) {
+        console.log(data);
+        alert("Adding reservation...");
+      });
+  });
 //function to clear the reservation/wait list arrays
 
 
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
+
+
+  //constructor in case we need it
+  // var Reservations = function (customerName, customerEmail, customerID, phone) {
+  //   customerName = this.name;
+  //   customerEmail = this.customerEmail;
+  //   customerID = this.customerID;
+  //   phone = this.phone;
+  // }

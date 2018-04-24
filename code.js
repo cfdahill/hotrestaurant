@@ -57,6 +57,9 @@ app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
 
+  app.get("/api/tables", function(req, res) {
+    return res.json(characters);
+  });
 
   //constructor in case we need it
   // var Reservations = function (customerName, customerEmail, customerID, phone) {
